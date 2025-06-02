@@ -12,11 +12,13 @@ using Microsoft.Extensions.DependencyInjection;
 
 // Configurar o contêiner de serviços
 var serviceCollection = new ServiceCollection();
+
 serviceCollection.AddScoped<SQLiteContext>();
 serviceCollection.AddScoped<SQLiteConfig>();
 serviceCollection.AddScoped<DapperContext>();
 serviceCollection.AddTransient<IClienteRepository, ClienteRepository>();
 serviceCollection.AddTransient<IClienteService, ClienteService>();
+
 var serviceProvider = serviceCollection.BuildServiceProvider();
 
 // Resolver o contêiner de serviço
