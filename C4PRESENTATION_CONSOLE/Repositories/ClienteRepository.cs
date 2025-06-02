@@ -15,7 +15,6 @@ namespace C4PRESENTATION_CONSOLE.Repositories
         {
             _context = context;
         }
-
         public void Alterar(Cliente cliente, int id)
         {
             using (var dapper = _context.DapperConexao())

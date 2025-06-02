@@ -8,7 +8,7 @@ using C4PRESENTATION_CONSOLE.Services;
 using C4PRESENTATION_CONSOLE.SQLite;
 using Microsoft.Extensions.DependencyInjection;
 
-#region IoC
+#region CONFIGURAÇÃO
 
 // Configurar o contêiner de serviços
 var serviceCollection = new ServiceCollection();
@@ -25,7 +25,7 @@ var _service = serviceProvider.GetService<IClienteService>();
 
 #endregion
 
-#region Presentation
+#region MENU
 
 if (_serviceSQLite != null)
 {
@@ -94,7 +94,7 @@ Environment.Exit(0);
 
 #endregion
 
-#region Application
+#region COMANDOS
 
 public class ClienteApp
 {
@@ -102,7 +102,7 @@ public class ClienteApp
     public static void Listar(IClienteService _service)
     {
         Console.WriteLine("\nListar");
-        List<ClienteDTO> cliente = Mapping.ToListClienteDTO(_service.Listar());
+        List<ClienteDTO> cliente = Mapper.ToListClienteDTO(_service.Listar());
         foreach (var item in cliente)
         {
             Console.WriteLine($"Id: {item.Id}, Nome: {item.Nome}, IdGuid: {item.IdGuid}");
@@ -117,7 +117,7 @@ public class ClienteApp
         if (!String.IsNullOrEmpty(nome))
         {
             ClienteDTO cliente = new ClienteDTO { Id = 0, Nome = nome, IdGuid = Guid.NewGuid() };
-            _service.Criar(Mapping.ToCliente(cliente));
+            _service.Criar(Mapper.ToCliente(cliente));
         }
         Listar(_service);
     }
@@ -127,14 +127,14 @@ public class ClienteApp
         Console.WriteLine("\nAlterar");
         Console.Write("Id:");
         int id = Convert.ToInt32(Console.ReadLine());
-        ClienteDTO cliente = Mapping.ToClienteDTO(_service.PegarPorId(id));
+        ClienteDTO cliente = Mapper.ToClienteDTO(_service.PegarPorId(id));
         Console.WriteLine($"Id: {cliente.Id}, Nome: {cliente.Nome}, IdGuid: {cliente.IdGuid}");
         Console.Write("Nome: ");
         string nome = Console.ReadLine() ?? String.Empty;
         if (!String.IsNullOrEmpty(nome))
         {
             ClienteDTO cliente2 = new ClienteDTO { Id = cliente.Id, Nome = nome, IdGuid = cliente.IdGuid };
-            _service.Alterar(Mapping.ToCliente(cliente2), cliente.Id);
+            _service.Alterar(Mapper.ToCliente(cliente2), cliente.Id);
         }
         Listar(_service);
     }
